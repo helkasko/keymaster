@@ -38,8 +38,9 @@ module.exports = {
       }).then(function(credentials) {
         var response = [
           'Your temporary credentials are below, they will expire on ' + credentials.Expiration + ':',
-          '    Access Key: ' + credentials.AccessKeyId,
-          '    Secret Key: ' + credentials.SecretAccessKey
+          '    AWS_ACCESS_KEY_ID="' + credentials.AccessKeyId + '"',
+          '    AWS_SECRET_ACCESS_KEY="' + credentials.SecretAccessKey + '"',
+          '    AWS_SESSION_TOKEN="' + credentials.SessionToken + '"'
         ].join('\n');
         return res.json({
           text: response

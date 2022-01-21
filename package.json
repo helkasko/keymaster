@@ -5,7 +5,7 @@
   "description": "Keymaster - Generate temporary AWS credentials, all through a convenient Slack Slash Command",
   "keywords": [],
   "dependencies": {
-    "aws-sdk": "^2.5.2",
+    "aws-sdk": "2.1060.0",
     "ejs": "^2.5.7",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
