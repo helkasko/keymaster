@@ -2,7 +2,7 @@ FROM alpine
 
 ENV NODE_ENV 'production'
 
-RUN apk add --no-cache nodejs
+RUN apk add --no-cache --update nodejs npm
 RUN npm install -g sails
 
 WORKDIR /usr/src/app

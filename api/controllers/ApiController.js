@@ -34,12 +34,18 @@ module.exports = {
       }
       var duration = parseInt(text.shift()) || sails.config.globals.keymaster.defaultLife;
       return RoleService.assumeRole(roleArn, req.body.user_id, duration).then(function(credentials) {
+        if (sails.config.globals.keymaster.auditBucket) {
+          S3Service.sendAuditFileToS3(sails.config.globals.keymaster.auditBucket, credentials, req.body.user_name, roleName);
+        }
         return SlackService.sendAuditMessage(credentials, req.body.user_name, roleName);
       }).then(function(credentials) {
         var response = [
           'Your temporary credentials are below, they will expire on ' + credentials.Expiration + ':',
-          '    Access Key: ' + credentials.AccessKeyId,
-          '    Secret Key: ' + credentials.SecretAccessKey
+          '```',
+          'export AWS_ACCESS_KEY_ID="' + credentials.AccessKeyId + '"',
+          'export AWS_SECRET_ACCESS_KEY="' + credentials.SecretAccessKey + '"',
+          'export AWS_SESSION_TOKEN="' + credentials.SessionToken + '"',
+          '```'
         ].join('\n');
         return res.json({
           text: response

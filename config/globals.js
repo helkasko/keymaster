@@ -15,6 +15,7 @@ module.exports.globals = {
     slashToken: process.env.SLASH_TOKEN,
     auditWebhook: process.env.AUDIT_WEBHOOK,
     auditChannel: process.env.AUDIT_CHANNEL,
+    auditBucket: process.env.AUDIT_S3_BUCKET,
     auditBotName: process.env.AUDIT_BOT_NAME || 'Keymaster'
   }
 };
