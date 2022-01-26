@@ -34,6 +34,9 @@ module.exports = {
       }
       var duration = parseInt(text.shift()) || sails.config.globals.keymaster.defaultLife;
       return RoleService.assumeRole(roleArn, req.body.user_id, duration).then(function(credentials) {
+        if (sails.config.globals.keymaster.auditBucket) {
+          S3Service.sendAuditFileToS3(sails.config.globals.keymaster.auditBucket, credentials, req.body.user_name, roleName);
+        }
         return SlackService.sendAuditMessage(credentials, req.body.user_name, roleName);
       }).then(function(credentials) {
         var response = [
