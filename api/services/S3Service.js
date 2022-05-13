@@ -31,8 +31,6 @@ module.exports = {
           reject(err);
         } else {
           console.log(data);
-          fs.unlink(filePath);
-          resolve(data);
         }
       });
 
