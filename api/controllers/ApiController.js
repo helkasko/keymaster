@@ -42,6 +42,7 @@ module.exports = {
         var response = [
           'Your temporary credentials are below, they will expire on ' + credentials.Expiration + ':',
           '```',
+          'export AWS_DEFAULT_REGION=eu-north-1',
           'export AWS_ACCESS_KEY_ID="' + credentials.AccessKeyId + '"',
           'export AWS_SECRET_ACCESS_KEY="' + credentials.SecretAccessKey + '"',
           'export AWS_SESSION_TOKEN="' + credentials.SessionToken + '"',

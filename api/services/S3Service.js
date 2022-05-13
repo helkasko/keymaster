@@ -30,10 +30,8 @@ module.exports = {
           console.log("failed to upload: ", err);
           reject(err);
         } else {
-            console.log(data);
-          if(clean) {
-            fs.unlink(srcPath);
-          }
+          console.log(data);
+          fs.unlink(filePath);
           resolve(data);
         }
       });
