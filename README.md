@@ -1,5 +1,5 @@
 # Keymaster
-Keymaster is a Slack bot who hands out temporary AWS credentials, all through a convenient Slash command. Key requests are tracked through a channel so you can stay up to date on who is requesting credentials.
+Keymaster is a Slack bot who hands out temporary AWS credentials, all through a convenient Slash command. Key requests are tracked through a channel so you can stay up to date on who is requesting credentials. The audit logs can be optionally pushed to a given S3 bucket also.
 
 ![Keymaster](docs/images/Keymaster.gif)
 
@@ -49,6 +49,9 @@ The **token** field value will need to be injected into the **Keymaster** enviro
 ### Setting Up the Audit Webhook (Optional)
 **Keymaster** can optionally chat public audit logs for who has generated credentials. To enable this create a [Slack Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks). The webhook URL will be needed as an environment variable. The audit channel and bot name can be overridden by environment variables, the rest of the webhook configs will be pulled from the webhook setup.
 
+### Setting Up the Audit log S3 Bucket (Optional)
+**Keymaster** can optionally publish its audit logs to a given S3 bucket also. The IAM policy needs to have S3 permissions (e.g. s3:*) in addition to the AssumeRole permissions mentioned above.
+
 ### Running Keymaster
 **Keymaster** is most easily run as a Docker container. You can install Docker following [their instructions](https://docs.docker.com/engine/installation/), though I find the easier way to install it is by running the following:
 ```bash
@@ -63,10 +66,11 @@ docker run -d -p 80:1337 -e SLASH_TOKEN=[my-slash-token] -e AUDIT_WEBHOOK=[my-in
 You can change the port as needed to satisfy the HTTPS requirement of Slack.
 
 ### Environment Variables
-- **AWS_ACCESS_KEY_ID** - AWS access key to assume roles
-- **AWS_SECRET_ACCESS_KEY** - AWS secret key to assume roles
 - **SLASH_TOKEN** - Slash command token (found during Slash command setup)
-- **DEFAULT_KEY_LIFE_SECONDS** (default: 3600) - Default lifetime of temporary keys in seconds (AWS limits this to a max of 1 hour)
-- **AUDIT_WEBHOOK** (optional) - Audit channel Slack Webhook
-- **AUDIT_CHANNEL** (optional) - Audit channel (defaults to the default channel from the audit webhook)
-- **AUDIT_BOT_NAME** (optional, default: Keymaster) - Audit channel bot name
+- **DEFAULT_KEY_LIFE_SECONDS** (default: 3600) - Default lifetime of temporary keys in seconds (AWS limits this to a max of 1 hour).
+- **AUDIT_WEBHOOK** (optional) - Audit channel Slack Webhook.
+- **AUDIT_CHANNEL** (optional) - Audit channel (defaults to the default channel from the audit webhook).
+- **AUDIT_BOT_NAME** (optional, default: Keymaster) - Audit channel bot name.
+- **AUDIT_S3_BUCKET** (optional, default: <empty>) - Audit logs can be pushed to given S3 bucket also (S3 access needs to be added to IAM policy too).
+- **AWS_ACCESS_KEY_ID** - (optional) - AWS access key to assume roles. Not needed if IAM role is used as pod role.
+- **AWS_SECRET_ACCESS_KEY** - (optional) - AWS secret key to assume roles. Not needed if IAM role is used as pod role.
