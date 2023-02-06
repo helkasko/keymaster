@@ -1,3 +1,3 @@
-@Library(['asti-jenkins-library@BLK-2021-iam-infra-etc']) _
+@Library(['asti-jenkins-library']) _
 
 astiInfraDockerPipeline(appName: "keymaster")
